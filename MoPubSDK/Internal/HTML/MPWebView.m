@@ -10,7 +10,7 @@
 #import <WebKit/WebKit.h>
 
 static BOOL const kMoPubAllowsInlineMediaPlaybackDefault = YES;
-static BOOL const kMoPubRequiresUserActionForMediaPlaybackDefault = NO;
+static BOOL vMoPubRequiresUserActionForMediaPlayback = NO;
 
 // Set defaults for this as its default differs between UIWebView and WKWebView
 static BOOL const kMoPubAllowsLinkPreviewDefault = NO;
@@ -19,6 +19,10 @@ static NSString *const kMoPubJavaScriptDisableDialogScript = @"window.alert = fu
 static NSString *const kMoPubScalesPageToFitScript = @"var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width, initial-scale=1.0, user-scalable=no'); document.getElementsByTagName('head')[0].appendChild(meta);";
 
 static NSString *const kMoPubFrameKeyPathString = @"frame";
+
+void MPSetRequiresUserActionForMediaPlayback(BOOL flag) {
+	vMoPubRequiresUserActionForMediaPlayback = flag;
+}
 
 @interface MPWebView () <UIWebViewDelegate, WKNavigationDelegate, WKUIDelegate, UIScrollViewDelegate>
 
@@ -70,9 +74,9 @@ static NSString *const kMoPubFrameKeyPathString = @"frame";
         WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
         config.allowsInlineMediaPlayback = kMoPubAllowsInlineMediaPlaybackDefault;
         if ([config respondsToSelector:@selector(requiresUserActionForMediaPlayback)]) {
-            config.requiresUserActionForMediaPlayback = kMoPubRequiresUserActionForMediaPlaybackDefault;
+            config.requiresUserActionForMediaPlayback = vMoPubRequiresUserActionForMediaPlayback;
         } else {
-            config.mediaPlaybackRequiresUserAction = kMoPubRequiresUserActionForMediaPlaybackDefault;
+            config.mediaPlaybackRequiresUserAction = vMoPubRequiresUserActionForMediaPlayback;
         }
         config.userContentController = contentController;
 
@@ -91,7 +95,7 @@ static NSString *const kMoPubFrameKeyPathString = @"frame";
         UIWebView *uiWebView = [[UIWebView alloc] initWithFrame:self.bounds];
 
         uiWebView.allowsInlineMediaPlayback = kMoPubAllowsInlineMediaPlaybackDefault;
-        uiWebView.mediaPlaybackRequiresUserAction = kMoPubRequiresUserActionForMediaPlaybackDefault;
+        uiWebView.mediaPlaybackRequiresUserAction = vMoPubRequiresUserActionForMediaPlayback;
 
         uiWebView.delegate = self;
 

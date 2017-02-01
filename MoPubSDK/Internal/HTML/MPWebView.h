@@ -23,6 +23,8 @@
 
 #import <UIKit/UIKit.h>
 
+void MPSetRequiresUserActionForMediaPlayback(BOOL flag);
+
 @class MPWebView;
 
 @protocol MPWebViewDelegate <NSObject>
