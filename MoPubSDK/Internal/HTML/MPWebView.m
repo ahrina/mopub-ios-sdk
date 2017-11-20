@@ -87,6 +87,10 @@ void MPSetRequiresUserActionForMediaPlayback(BOOL flag) {
 
         wkWebView.UIDelegate = self;
         wkWebView.navigationDelegate = self;
+		
+		if (@available(iOS 11, *)) {
+			wkWebView.scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+		}
 
         webView = wkWebView;
 
@@ -101,6 +105,10 @@ void MPSetRequiresUserActionForMediaPlayback(BOOL flag) {
         uiWebView.mediaPlaybackRequiresUserAction = vMoPubRequiresUserActionForMediaPlayback;
 
         uiWebView.delegate = self;
+		
+		if (@available(iOS 11, *)) {
+			uiWebView.scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+		}
 
         webView = uiWebView;
 
